@@ -17,6 +17,7 @@ Utils::addRoute('register', 'RegisterCtrl');
 Utils::addRoute('registerShow', 'RegisterCtrl');
 Utils::addRoute('services', 'ServicesCtrl');
 Utils::addRoute('shop', 'ShopCtrl');
+Utils::addRoute('shop_filtered_chairs', 'ShopCtrl');
 Utils::addRoute('products', 'ProductCtrl', ['worker']);
 Utils::addRoute('products_add_show', 'ProductCtrl', ['worker']);
 Utils::addRoute('products_add', 'ProductCtrl', ['worker']);

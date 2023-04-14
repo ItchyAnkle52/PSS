@@ -17,10 +17,10 @@
   <meta name="keywords" content="bootstrap, bootstrap4" />
 
 		<!-- Bootstrap CSS -->
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-		<link href="css/tiny-slider.css" rel="stylesheet">
-		<link href="css/style.css" rel="stylesheet">
+		<link href="{$conf->app_url}/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+		<link href="{$conf->app_url}/https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" type="text/css">
+		<link href="{$conf->app_url}/css/tiny-slider.css" rel="stylesheet" type="text/css">
+		<link href="{$conf->app_url}/css/style.css" rel="stylesheet" type="text/css">
 		<title>Furni</title>
 	</head>
 
@@ -47,7 +47,7 @@
 						{/if}
 						{if !isset($smarty.session.role) || $smarty.session.role == "user"}	
 						<li><a class="nav-link" href="{$conf->action_root}home">Home</a></li>
-						<li><a class="nav-link" href="{$conf->action_root}shop">Shop</a></li>
+						<li><a class="nav-link" href="{$conf->action_root}shop_filtered_chairs">Shop</a></li>
 						<li><a class="nav-link" href="{$conf->action_root}about">About</a></li>
 						<li><a class="nav-link" href="{$conf->action_root}blog">Blog</a></li>
 						<li><a class="nav-link" href="{$conf->action_root}contact">Contact</a></li>

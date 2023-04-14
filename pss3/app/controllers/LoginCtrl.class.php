@@ -21,10 +21,10 @@ class LoginCtrl
 
     public function __construct() {
         //stworzenie potrzebnych obiektów
-        $this->form = new LoginForm();
     }
    
     public function validate() {
+        $this->form = new LoginForm();
         $this->form->email = ParamUtils::getFromRequest('email');
         $this->form->password = ParamUtils::getFromRequest('password');
 

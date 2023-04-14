@@ -7,15 +7,84 @@ use core\Message;
 use core\Utils;
 use core\Validator;
 use core\ParamUtils;
+use app\forms\SearchForm;
 use PDOException;
 
 class ShopCtrl {
 
     private $products;
     private $product_id;
+    private $page;
+    private $sum;
+
+    private $limit;
 
     public function action_shop() {
+        $this->form = new SearchForm();
         $this->getChairs(0);
+        $this->generateView();
+    }
+    public function __construct(){
+        $this->form = new SearchForm();
+    }
+    public function validate() {
+        $this->form->item_name = ParamUtils::getFromRequest('item_name', true, 'Błędne wywołanie aplikacji');
+        if (App::getMessages()->isError())
+            return false;
+    }
+
+    public function action_shop_filtered_chairs(){
+        $this->validate();
+
+        $this->form->login = ParamUtils::getFromRequest('item_name');
+
+        $search_params = [];
+        if ( isset($this->form->item_name) && strlen($this->form->item_name > 0)) {
+            $search_params['product_name[~]'] = $this->form->item_name.'%';
+        }
+
+        $num_params = sizeof($search_params);
+        if ($num_params > 1) {
+            $where = [ "AND" => &$search_params ];
+        } else {
+            $where = &$search_params;
+        }
+
+        $this->page = ParamUtils::getFromCleanURL(1, true);
+
+
+        $how_many = App::getDB()->select("product", [
+            "[>]product_type" => ["id_product_type" => "id_product_type"]
+        ], [
+            "product.id_product",
+            "product.product_name",
+            "product.product_price",
+            "product.product_image_path",
+            "product_type.id_product_type",
+            "product_type.type_name"
+        ],  $where
+        );
+
+        $this->sum = 0;
+        $this->sum = count($how_many);
+
+        $this->limit = 4;
+        $offset = $this->limit*($this->page);
+
+        $where ["LIMIT"] = [$offset, $this->limit];
+
+        $this->products = App::getDB()->select("product", [
+            "[>]product_type" => ["id_product_type" => "id_product_type"]
+        ], [
+            "product.id_product",
+            "product.product_name",
+            "product.product_price",
+            "product.product_image_path",
+            "product_type.id_product_type",
+            "product_type.type_name"
+        ],  $where
+        );
+
         $this->generateView();
     }
 
@@ -112,7 +181,11 @@ class ShopCtrl {
     }
 
     public function generateView() {
-        App::getSmarty()->assign('products', $this->products);    
+        App::getSmarty()->assign('products', $this->products);
+        App::getSmarty()->assign('form', $this->form);
+        App::getSmarty()->assign('page', $this->page);
+        App::getSmarty()->assign('sum', $this->sum);
+        App::getSmarty()->assign('limit', $this->limit);
         App::getSmarty()->display("shop.tpl");
     }
 

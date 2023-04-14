@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Framework initialization
  * - load config, messages, autoloader, router - prepare functions returning this global objects
