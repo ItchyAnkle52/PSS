@@ -36,7 +36,7 @@ class ShopCtrl {
     public function action_shop_filtered_chairs(){
         $this->validate();
 
-        $this->form->login = ParamUtils::getFromRequest('item_name');
+        //$this->form->login = ParamUtils::getFromRequest('item_name');
 
         $search_params = [];
         if ( isset($this->form->item_name) && strlen($this->form->item_name > 0)) {
